@@ -18,7 +18,7 @@
   number2words(888888) -> "eight hundred eighty-eight thousand eight hundred eighty-eight"
 */
 
-function number2words(n){
+function number2words(number) {
   const baseNumbers = {
     0: 'zero',
     1: 'one',
@@ -56,8 +56,8 @@ function number2words(n){
   const rest = (n, i) => String.prototype.substring.call(n, i);
 
   const convert = (n, handleZero = true) => {
-    if (n === 0 && !handleZero) return '';
-    if (n < 100 && baseNumbers[n]) return baseNumbers[n];
+    if (n === 0 && !handleZero) { return ''; }
+    if (n < 100 && baseNumbers[n]) { return baseNumbers[n]; }
 
     switch (String(n).length) {
     case 2:return tens(n);
@@ -65,12 +65,13 @@ function number2words(n){
     case 4: return aboveOneHundred(n, 1, 1000);
     case 5: return aboveOneHundred(n, 2, 1000);
     case 6: return aboveOneHundred(n, 3, 1000);
+    default: return '';
     }
   };
 
   const tens = (n) => {
     const v = parseInt(n, 10);
-    const head = first(v, 1)*10;
+    const head = first(v, 1) * 10;
     const tail = rest(v, 1);
 
     return [
@@ -91,7 +92,7 @@ function number2words(n){
     ].join(' ').trim();
   };
 
-  return convert(n);
+  return convert(number);
 }
 
 export default number2words;
