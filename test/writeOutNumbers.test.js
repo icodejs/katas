@@ -1,5 +1,5 @@
 import assert from 'assert';
-import won from '../src/writeOutNumbers';
+import won from '../src/writeOutNumbers.js';
 
 const task = 'Transforms any positive number to a string representing the number in words. It should work for all numbers between 0 and 999999.';
 
