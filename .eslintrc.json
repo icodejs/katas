@@ -62,7 +62,7 @@
         "spaced-comment": [2, "always", { "exceptions": ["-"] }],
         "wrap-iife": 2,
         "yoda": [2, "never"]
-    }
+    },
     "globals": {
       "expect": true,
       "require": true,
