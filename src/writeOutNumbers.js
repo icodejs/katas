@@ -60,11 +60,11 @@ function number2words(number) {
     if (n < 100 && baseNumbers[n]) { return baseNumbers[n]; }
 
     switch (String(n).length) {
-    case 2:return tens(n);
+    case 2: return tens(n);
     case 3: return aboveOneHundred(n, 1, 100);
-    case 4: return aboveOneHundred(n, 1, 1000);
-    case 5: return aboveOneHundred(n, 2, 1000);
-    case 6: return aboveOneHundred(n, 3, 1000);
+    case 4: return aboveOneHundred(n, 1);
+    case 5: return aboveOneHundred(n, 2);
+    case 6: return aboveOneHundred(n, 3);
     default: return '';
     }
   };
@@ -80,7 +80,7 @@ function number2words(number) {
     ].join('-');
   };
 
-  const aboveOneHundred = (n, i, baseNumber) => {
+  const aboveOneHundred = (n, i, baseNumber = 1000) => {
     const v = parseInt(n, 10);
     const head = first(v, i);
     const tail = parseInt(rest(v, i), 10);
