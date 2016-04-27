@@ -21,7 +21,7 @@ const addOne = function(e) { return e + 1; };
 const square = function(e) { return e * e; };
 
 Function.prototype.pipe = function(fn) {
-  return (a) => fn(this.call(null, a))
+  return (a) => fn(this.call(null, a));
 };
 
 function addOneAndSquareIt(arr) {

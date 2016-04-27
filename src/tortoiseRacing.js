@@ -30,7 +30,6 @@
   }
  */
 
-
 function race(v1, v2, g) {
   if (v1 > v2) return null;
 

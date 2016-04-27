@@ -39,29 +39,29 @@ export const sanitise = string => {
           .filter(c => 'abcdefghijklmnopqrstuvwxyz'.indexOf(c) > -1)
           .filter(c => string.match(new RegExp(c, 'g')).length > 1)
           .join('');
-}
+};
 
 export const group = string => {
   return string.split('').sort().reduce((acc, c, i, arr) => {
     if (!acc[c]) acc[c] = arr.slice(arr.indexOf(c), arr.lastIndexOf(c) + 1).length;
     return acc;
   }, {});
-}
+};
 
 export const alphaSort = (a, b) => {
   if (a > b) return -1;
   if (a < b) return 1;
   return 0;
-}
+};
 
 export const sort = (a, b) => {
   const comparator = a.split(':')[1].length - b.split(':')[1].length;
   return comparator !== 0 ? comparator : alphaSort(a, b);
-}
+};
 
 export const repeat = (c, n) => {
-  return Array(n + 1).join(c)
-}
+  return Array(n + 1).join(c);
+};
 
 export default function mix(s1, s2) {
   const group1 = group(sanitise(s1));
@@ -83,7 +83,6 @@ export default function mix(s1, s2) {
       else {
         return [...output, `2:${repeat(k, len2)}`];
       }
-      return output;
     }, [])
     .sort(sort)
     .reverse()
