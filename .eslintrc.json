@@ -12,7 +12,7 @@
         "camelcase": [2, { "properties": "always" }],
         "comma-spacing": 2,
         "comma-style": 2,
-        "curly": 2,
+        "curly": ["error", "multi-line"],
         "default-case": 2,
         "dot-notation": 2,
         "eol-last": 2,
