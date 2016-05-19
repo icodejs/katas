@@ -1,4 +1,5 @@
 // Regex lessons from: http://regexone.com
+// https://www.codecademy.com/en/courses/javascript-intermediate-en-NJ7Lr/0/2
 
 import assert from 'assert';
 
@@ -19,8 +20,9 @@ describe('Regex functions', () => {
     assert.equal(/\d/.test('123'), true);
   });
 
-  it('should match using wildcard', () => {
+  it('should match any single character (letter, digit, whitespace, everything)', () => {
     // http://regexone.com/lesson/wildcards_dot
+    // Similarly, there is the concept of a wildcard, which is represented by the . (dot) metacharacter, and can match any single character (letter, digit, whitespace, everything).
     assert.equal(/...\./.test('abc.'), true);
     assert.equal(/...\./.test('123.'), true);
     assert.equal(/...\./.test('ewfw'), false);
@@ -98,5 +100,39 @@ describe('Regex functions', () => {
     assert.equal(/[\d]+ files? found\?/.test('24 files found?'), true);
     assert.equal(/[\d]+ files? found\?/.test('No files found.'), false);
   });
+
+  it('should match whitespace', () => {
+    // http://regexone.com/lesson/whitespaces?
+    assert.equal(/\d\.\s+abc/.test('1.   abc'), true);
+    assert.equal(/\d\.\s+abc/.test('2.    abc'), true);
+    assert.equal(/\d\.\s+abc/.test('3.     abc'), true);
+    assert.equal(/\d\.\s+abc/.test('4.abc'), false);
+  });
+
+  it('should describe both the start and the end of the line using the special ^ (hat) and $ (dollar sign) metacharacters', () => {
+    assert.equal(/^Mission: successful$/.test('Mission: successful'), true);
+    assert.equal(/^Mission: successful$/.test('Last Mission: unsuccessful'), false);
+    assert.equal(/^Mission: successful$/.test('Next Mission: successful upon capture of target'), false);
+  });
+
+  it('should match only the filenames (not including extension) of the PDF files', () => {
+    assert.equal(/(file.+)\.pdf$/.test('file_record_transcript.pdf'), true);
+    assert.equal(/(file.+)\.pdf$/.test('file_07241999.pdf'), true);
+    assert.equal(/(file.+)\.pdf$/.test('testfile_fake.pdf.tmp'), false);
+
+    assert.equal(/(file_.+)\.pdf$/.test('file_record_transcript.pdf'), true);
+    assert.equal(/(file_.+)\.pdf$/.test('file_07241999.pdf'), true);
+    assert.equal(/(file_.+)\.pdf$/.test('testfile_fake.pdf.tmp'), false);
+
+    assert.equal(/(f.+)\.pdf$/.test('file_record_transcript.pdf'), true);
+    assert.equal(/(f.+)\.pdf$/.test('file_07241999.pdf'), true);
+    assert.equal(/(f.+)\.pdf$/.test('testfile_fake.pdf.tmp'), false);
+  });
 });
+
+/*
+  it('should', () => {
+    assert.equal(/aaa/.test('abc'), true);
+  });
+ */
 
