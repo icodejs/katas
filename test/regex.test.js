@@ -248,6 +248,25 @@ describe('Regex functions', () => {
     assert.equal(solutionRegex.test('hermione+regexone@hogwarts.com'), true);
   });
 
+  it('should match HTML tags', () => {
+    // http://regexone.com/problem/matching_html?
+    const regex = /<(\w+)/;
+    assert.equal('<a>This is a link</a>'.match(regex)[0], '<a');
+    assert.equal('<a href="http://regexone.com">Link</a>'.match(regex)[0], '<a');
+    assert.equal('<div class="test_style">Test</div>'.match(regex)[0], '<div');
+    assert.equal('<div>Hello <span>world</span></div>'.match(regex)[0], '<div');
+  });
+
+  it('should match specific filenames', () => {
+    // http://regexone.com/problem/matching_filenames?
+    const regex = /(\w+)((\.)(jpg|png|gif))$/;
+    assert.equal(regex.test('img0912.jpg'), true);
+    assert.equal(regex.test('updated_img0912.png'), true);
+    assert.equal(regex.test('favicon.gif'), true);
+    assert.equal(regex.test('.bash_profile'), false);
+    assert.equal(regex.test('img0912.jpg.tmp'), false);
+    assert.equal(regex.test('access.lock'), false);
+  });
 });
 
 /*
@@ -256,3 +275,4 @@ describe('Regex functions', () => {
   });
  */
 
+//
