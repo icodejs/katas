@@ -28,6 +28,8 @@ describe('Regex functions', () => {
     assert.equal(/...\./.test('ewfw'), false);
     assert.equal(/...\./.test('ewfw.'), true);
     assert.equal(/....\./.test('ewfw.'), true);
+
+    assert.equal(/.*/.test('ewfw.'), true);
   });
 
   it('should match specific characters', () => {
@@ -159,6 +161,16 @@ describe('Regex functions', () => {
     assert.equal(/I love (cats|dogs)/.test('I love dogs '), true);
     assert.equal(/I love (cats|dogs)/.test('I love logs'), false);
     assert.equal(/I love (cats|dogs)/.test('I love cogs'), false);
+  });
+
+  it('should match random strings', () => {
+    // http://regexone.com/lesson/misc_meta_characters?
+    assert.equal(/.*/.test('The quick brown fox jumped over the lazy dog.'), true);
+    assert.equal(/.*/.test('There were 614 instances of students getting 90.0% or above.'), true);
+    assert.equal(/.*/.test('The FCC had to censor the network for saying &$#*@!.'), true);
+
+    assert.equal(/the .*/.test('The quick brown fox jumped over the lazy dog.'), true);
+    assert.equal(/the .*/.test('The FCC had to censor the network for saying &$#*@!.'), true);
   });
 });
 
