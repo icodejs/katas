@@ -141,6 +141,25 @@ describe('Regex functions', () => {
     assert.equal(/(\w+ (\d+))/.test('May 1969'), true);
     assert.equal(/(\w+ (\d+))/.test('Aug 2011'), true);
   });
+
+  it('should capture the width and height of each display', () => {
+    // http://regexone.com/lesson/more_groups
+    assert.equal(/(\d{1,})x(\d{1,})/.test('1280x720'), true);
+    assert.equal(/(\d{1,})x(\d{1,})/.test('1920x1600'), true);
+    assert.equal(/(\d{1,})x(\d{1,})/.test('1024x768'), true);
+
+    assert.equal(/(\d+)x(\d+)/.test('1280x720'), true);
+    assert.equal(/(\d+)x(\d+)/.test('1920x1600'), true);
+    assert.equal(/(\d+)x(\d+)/.test('1024x768'), true);
+  });
+
+  it('should match only the lines with small fuzzy creatures ', () => {
+    // http://regexone.com/lesson/conditionals?
+    assert.equal(/I love (cats|dogs)/.test('I love cats '), true);
+    assert.equal(/I love (cats|dogs)/.test('I love dogs '), true);
+    assert.equal(/I love (cats|dogs)/.test('I love logs'), false);
+    assert.equal(/I love (cats|dogs)/.test('I love cogs'), false);
+  });
 });
 
 /*
