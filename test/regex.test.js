@@ -89,33 +89,37 @@ describe('Regex functions', () => {
 
   it('should match an arbitrary number of characters', () => {
     // http://regexone.com/lesson/kleene_operators?
-    assert.equal(/a*[bc]+/.test('aaaabcc'), true);
-    assert.equal(/a*[bc]+/.test('aabbbbc'), true);
-    assert.equal(/a*[bc]+/.test('aacc'), true);
-    assert.equal(/a*[bc]+/.test('a'), false);
+    const regex = /a*[bc]+/;
+    assert.equal(regex.test('aaaabcc'), true);
+    assert.equal(regex.test('aabbbbc'), true);
+    assert.equal(regex.test('aacc'), true);
+    assert.equal(regex.test('a'), false);
   });
 
   it('should match either zero or one of the preceding character or group', () => {
     // http://regexone.com/lesson/optional_characters
-    assert.equal(/[\d]+ files? found\?/.test('1 file found?'), true);
-    assert.equal(/[\d]+ files? found\?/.test('2 files found?'), true);
-    assert.equal(/[\d]+ files? found\?/.test('24 files found?'), true);
-    assert.equal(/[\d]+ files? found\?/.test('No files found.'), false);
+    const regex = /[\d]+ files? found\?/;
+    assert.equal(regex.test('1 file found?'), true);
+    assert.equal(regex.test('2 files found?'), true);
+    assert.equal(regex.test('24 files found?'), true);
+    assert.equal(regex.test('No files found.'), false);
   });
 
   it('should match whitespace', () => {
     // http://regexone.com/lesson/whitespaces?
-    assert.equal(/\d\.\s+abc/.test('1.   abc'), true);
-    assert.equal(/\d\.\s+abc/.test('2.    abc'), true);
-    assert.equal(/\d\.\s+abc/.test('3.     abc'), true);
-    assert.equal(/\d\.\s+abc/.test('4.abc'), false);
+    const regex = /\d\.\s+abc/;
+    assert.equal(regex.test('1.   abc'), true);
+    assert.equal(regex.test('2.    abc'), true);
+    assert.equal(regex.test('3.     abc'), true);
+    assert.equal(regex.test('4.abc'), false);
   });
 
   it('should describe both the start and the end of the line using the special ^ (hat) and $ (dollar sign) metacharacters', () => {
     // http://regexone.com/lesson/line_beginning_end
-    assert.equal(/^Mission: successful$/.test('Mission: successful'), true);
-    assert.equal(/^Mission: successful$/.test('Last Mission: unsuccessful'), false);
-    assert.equal(/^Mission: successful$/.test('Next Mission: successful upon capture of target'), false);
+    const regex = /^Mission: successful$/;
+    assert.equal(regex.test('Mission: successful'), true);
+    assert.equal(regex.test('Last Mission: unsuccessful'), false);
+    assert.equal(regex.test('Next Mission: successful upon capture of target'), false);
   });
 
   it('should match only the filenames (not including extension) of the PDF files', () => {
@@ -157,10 +161,11 @@ describe('Regex functions', () => {
 
   it('should match only the lines with small fuzzy creatures ', () => {
     // http://regexone.com/lesson/conditionals?
-    assert.equal(/I love (cats|dogs)/.test('I love cats '), true);
-    assert.equal(/I love (cats|dogs)/.test('I love dogs '), true);
-    assert.equal(/I love (cats|dogs)/.test('I love logs'), false);
-    assert.equal(/I love (cats|dogs)/.test('I love cogs'), false);
+    const regex = /I love (cats|dogs)/;
+    assert.equal(regex.test('I love cats '), true);
+    assert.equal(regex.test('I love dogs '), true);
+    assert.equal(regex.test('I love logs'), false);
+    assert.equal(regex.test('I love cogs'), false);
   });
 
   it('should match random strings', () => {
@@ -172,7 +177,50 @@ describe('Regex functions', () => {
     assert.equal(/the .*/.test('The quick brown fox jumped over the lazy dog.'), true);
     assert.equal(/the .*/.test('The FCC had to censor the network for saying &$#*@!.'), true);
   });
+
+  it('should match a decimal, scientific, financial, positive, negative, significant digits, exponents, and different representations like the comma used to separate thousands and millions.', () => {
+    // http://regexone.com/problem/matching_decimal_numbers
+    const regx = /^-?\d+(,\d+)*(\.\d+(e\d+)?)?$/;
+    assert.equal(regx.test(3.14529), true);
+    assert.equal(regx.test(-255.34), true);
+    assert.equal(regx.test(128), true);
+    assert.equal(regx.test(1.9e10), true);
+    assert.equal(regx.test('123,340.00'), true);
+    assert.equal(regx.test('720p'), false);
+  });
+
+  it('should match the number and captures the proper area code', () => {
+    // http://regexone.com/problem/matching_phone_numbers?
+    const regex = /(\d{1}\s)?(\(?)(\d{3})(\-?)(\)?)(\s?)(\d{3})(\-?)(\s?)(\d{4})/;
+    assert.equal(regex.test('415-555-1234'), true);
+    assert.equal(regex.test('650-555-2345'), true);
+    assert.equal(regex.test('(416)555-3456'), true);
+    assert.equal(regex.test('202 555 4567'), true);
+    assert.equal(regex.test('4035555678'), true);
+    assert.equal(regex.test('1 416 555 9292'), true);
+
+    const solutionRegex = /1?[\s-]?\(?(\d{3})\)?[\s-]?\d{3}[\s-]?\d{4}/;
+    assert.equal(solutionRegex.test('415-555-1234'), true);
+    assert.equal(solutionRegex.test('650-555-2345'), true);
+    assert.equal(solutionRegex.test('(416)555-3456'), true);
+    assert.equal(solutionRegex.test('202 555 4567'), true);
+    assert.equal(solutionRegex.test('4035555678'), true);
+    assert.equal(solutionRegex.test('1 416 555 9292'), true);
+
+    // tweaked based on solution
+    const regexTweaked = /(\d{1}\s)?(\(?)(\d{3})(\)?)[\-?\s]?(\d{3})[\-\s]?(\d{4})/;
+    assert.equal(regexTweaked.test('415-555-1234'), true);
+    assert.equal(regexTweaked.test('650-555-2345'), true);
+    assert.equal(regexTweaked.test('(416)555-3456'), true);
+    assert.equal(regexTweaked.test('202 555 4567'), true);
+    assert.equal(regexTweaked.test('4035555678'), true);
+    assert.equal(regexTweaked.test('1 416 555 9292'), true);
+  });
 });
+
+
+// (\d{1}\s)?(\(?)(\d{3})(\-?)(\)?)(\s?)(\d{3})(\-?)(\s?)(\d{4})
+// 1?[\s-]?\(?(\d{3})\)?[\s-]?\d{3}[\s-]?\d{4}
 
 /*
   it('should', () => {
