@@ -110,12 +110,14 @@ describe('Regex functions', () => {
   });
 
   it('should describe both the start and the end of the line using the special ^ (hat) and $ (dollar sign) metacharacters', () => {
+    // http://regexone.com/lesson/line_beginning_end
     assert.equal(/^Mission: successful$/.test('Mission: successful'), true);
     assert.equal(/^Mission: successful$/.test('Last Mission: unsuccessful'), false);
     assert.equal(/^Mission: successful$/.test('Next Mission: successful upon capture of target'), false);
   });
 
   it('should match only the filenames (not including extension) of the PDF files', () => {
+    // http://regexone.com/lesson/capturing_groups
     assert.equal(/(file.+)\.pdf$/.test('file_record_transcript.pdf'), true);
     assert.equal(/(file.+)\.pdf$/.test('file_07241999.pdf'), true);
     assert.equal(/(file.+)\.pdf$/.test('testfile_fake.pdf.tmp'), false);
@@ -127,6 +129,17 @@ describe('Regex functions', () => {
     assert.equal(/(f.+)\.pdf$/.test('file_record_transcript.pdf'), true);
     assert.equal(/(f.+)\.pdf$/.test('file_07241999.pdf'), true);
     assert.equal(/(f.+)\.pdf$/.test('testfile_fake.pdf.tmp'), false);
+  });
+
+  it('should match and captures both the full date, as well as the year of the date', () => {
+    // http://regexone.com/lesson/nested_groups
+    assert.equal(/([A-Za-z]+ ([\d]+))/.test('Jan 1987'), true);
+    assert.equal(/([A-Za-z]+ ([\d]+))/.test('May 1969'), true);
+    assert.equal(/([A-Za-z]+ ([\d]+))/.test('Aug 2011'), true);
+
+    assert.equal(/(\w+ (\d+))/.test('Jan 1987'), true);
+    assert.equal(/(\w+ (\d+))/.test('May 1969'), true);
+    assert.equal(/(\w+ (\d+))/.test('Aug 2011'), true);
   });
 });
 
