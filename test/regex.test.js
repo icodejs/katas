@@ -216,11 +216,39 @@ describe('Regex functions', () => {
     assert.equal(regexTweaked.test('4035555678'), true);
     assert.equal(regexTweaked.test('1 416 555 9292'), true);
   });
+
+  it('should capture the name of the email, excluding the filter (+ character and afterwards) and domain (@ character and afterwards)', () => {
+    // http://regexone.com/problem/matching_emails?
+
+    // const matchEverything = /(\w+(\.\w+)?)(\+\w+)?@\w+(\.\w+)?\.\w+/;
+    const regex = /^(\w+(\.?)(\w+))/;
+    assert.equal(regex.test('tom@hogwarts.com'), true);
+    assert.equal(regex.test('tom.riddle@hogwarts.com'), true);
+    assert.equal(regex.test('tom.riddle+regexone@hogwarts.com'), true);
+    assert.equal(regex.test('tom@hogwarts.eu.com'), true);
+    assert.equal(regex.test('potter@hogwarts.com'), true);
+    assert.equal(regex.test('harry@hogwarts.com'), true);
+    assert.equal(regex.test('hermione+regexone@hogwarts.com'), true);
+
+    assert.equal('tom@hogwarts.com'.match(regex)[0], 'tom');
+    assert.equal('tom.riddle@hogwarts.com'.match(regex)[0], 'tom.riddle');
+    assert.equal('tom.riddle+regexone@hogwarts.com'.match(regex)[0], 'tom.riddle');
+    assert.equal('tom@hogwarts.eu.com'.match(regex)[0], 'tom');
+    assert.equal('potter@hogwarts.com'.match(regex)[0], 'potter');
+    assert.equal('harry@hogwarts.com'.match(regex)[0], 'harry');
+    assert.equal('hermione+regexone@hogwarts.com'.match(regex)[0], 'hermione');
+
+    const solutionRegex = /^([\w\.]*)/;
+    assert.equal(solutionRegex.test('tom@hogwarts.com'), true);
+    assert.equal(solutionRegex.test('tom.riddle@hogwarts.com'), true);
+    assert.equal(solutionRegex.test('tom.riddle+solutionRegexone@hogwarts.com'), true);
+    assert.equal(solutionRegex.test('tom@hogwarts.eu.com'), true);
+    assert.equal(solutionRegex.test('potter@hogwarts.com'), true);
+    assert.equal(solutionRegex.test('harry@hogwarts.com'), true);
+    assert.equal(solutionRegex.test('hermione+regexone@hogwarts.com'), true);
+  });
+
 });
-
-
-// (\d{1}\s)?(\(?)(\d{3})(\-?)(\)?)(\s?)(\d{3})(\-?)(\s?)(\d{4})
-// 1?[\s-]?\(?(\d{3})\)?[\s-]?\d{3}[\s-]?\d{4}
 
 /*
   it('should', () => {
