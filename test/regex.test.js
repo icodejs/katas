@@ -267,12 +267,60 @@ describe('Regex functions', () => {
     assert.equal(regex.test('img0912.jpg.tmp'), false);
     assert.equal(regex.test('access.lock'), false);
   });
+
+
+  it('should trim whitespace from start and end of line', () => {
+    // http://regexone.com/problem/trimming_whitespace?
+    const regex = /^\s*(.*)\s*$/;
+    assert.equal(regex.test('   The quick brown fox... '), true);
+    assert.equal(regex.test(' jumped over the lazy dog.      '), true);
+  });
+
+  it('should extract the filename, method name and line number of line of the stack trace', () => {
+  /*
+    http://regexone.com/problem/extracting_log_data?
+
+    Problem 7: Extracting information from a log file
+
+    In this example, we are going to use actual output from an Android adb debugging session. Your goal is to use any regular expression techniques that we've learned so far to extract the filename, method name and line number of line of the stack trace (they follow the form "at package.class.methodname(filename:linenumber)").
+   */
+
+    const match = regexMatch(/(\w+)\((\w+\.java):(\d+)/);
+
+    const input1 = 'E/( 1553):   at widget.List.makeView(ListView.java:1727)';
+    assert.equal(match(input1), 'makeView(ListView.java:1727');
+    assert.equal(match(input1, 1), 'makeView');
+    assert.equal(match(input1, 2), 'ListView.java');
+    assert.equal(match(input1, 3), '1727');
+
+    const input2 = 'E/( 1553):   at widget.List.fillDown(ListView.java:652)';
+    assert.equal(match(input2), 'fillDown(ListView.java:652');
+    assert.equal(match(input2, 1), 'fillDown');
+    assert.equal(match(input2, 2), 'ListView.java');
+    assert.equal(match(input2, 3), '652');
+
+    const input3 = 'E/( 1553):   at widget.List.fillFrom(ListView.java:709)';
+    assert.equal(match(input3), 'fillFrom(ListView.java:709');
+    assert.equal(match(input3, 1), 'fillFrom');
+    assert.equal(match(input3, 2), 'ListView.java');
+    assert.equal(match(input3, 3), '709');
+
+    // wrap the stuff you want to extract in parens and the stuff you just want to match should sit outside parens. Use ''.match() to see what you're capturing.
+
+    // Solution Regex = /(\w+)\(([\w\.]+):(\d+)\)/;
+  });
 });
+
+function regexMatch(regex) {
+  return function(input, i = 0) {
+    return input.match(regex)[i];
+  };
+}
 
 /*
   it('should', () => {
+    cont regex = /abc/;
     assert.equal(/aaa/.test('abc'), true);
   });
  */
 
-//
