@@ -309,6 +309,64 @@ describe('Regex functions', () => {
 
     // Solution Regex = /(\w+)\(([\w\.]+):(\d+)\)/;
   });
+
+  it('should extract the protocol, host and port of a resource', () => {
+  /*
+    http://regexone.com/problem/extracting_url_data?
+
+    Problem 8: Parsing and extracting data from a URL
+
+    When working with files and resources over a network, you will often come across URIs and URLs which can be parsed and worked with directly. Most standard libraries will have classes to parse and construct these kind of identifiers, but if you need to match them in logs or a larger corpus of text, you can use regular expressions to pull out information from their structured format quite easily.
+
+    URIs, or Uniform Resource Identifiers, are a representation of a resource that is generally composed of a scheme, host, port (optional), and resource path, respectively highlighted below.
+
+    http://regexone.com:80/page
+    The scheme describes the protocol to communicate with, the host and port describe the source of the resource, and the full path describes the location at the source for the resource.
+
+    In the exercise below, try to extract the protocol, host and port of the all the resources listed.
+   */
+
+    const match = regexMatch(/(\w+):\/\/([\w\.\-]*):*(\d*)/);
+
+    const input1 = 'ftp://file_server.com:21/top_secret/life_changing_plans.pdf';
+    assert.equal(match(input1), 'ftp://file_server.com:21');
+    assert.equal(match(input1, 1), 'ftp');
+    assert.equal(match(input1, 2), 'file_server.com');
+    assert.equal(match(input1, 3), '21');
+
+    const input2 = 'http://regexone.com/lesson/introduction#section';
+    assert.equal(match(input2), 'http://regexone.com');
+    assert.equal(match(input2, 1), 'http');
+    assert.equal(match(input2, 2), 'regexone.com');
+
+    const input3 = 'file://localhost:4040/zip_file';
+    assert.equal(match(input3), 'file://localhost:4040');
+    assert.equal(match(input3, 1), 'file');
+    assert.equal(match(input3, 2), 'localhost');
+    assert.equal(match(input3, 3), '4040');
+
+    const input4 = 'https://s3cur3-server.com:9999/';
+    assert.equal(match(input4), 'https://s3cur3-server.com:9999');
+    assert.equal(match(input4, 1), 'https');
+    assert.equal(match(input4, 2), 's3cur3-server.com');
+    assert.equal(match(input4, 3), '9999');
+
+    const input5 = 'market://search/angry%20birds';
+    assert.equal(match(input5), 'market://search');
+    assert.equal(match(input5, 1), 'market');
+    assert.equal(match(input5, 2), 'search');
+
+  /*
+    Solution
+    We have to match each of the three components:
+
+    the protocols in our list are all alphanumeric, so they can be matched using (\w+)://
+    The hosts can contain non-alphanumeric characters like the dash or the period, so we will have to specifically include those characters using ://([\w\-\.]+)
+    The port is an optional part of the URI and is preceeded with a colon and can be matched using (:(\d+))
+    To put it all together, we then have the full regular expression (\w+)://([\w\-\.]+)(:(\d+))? to capture all the data we are looking for.
+   */
+  });
+
 });
 
 function regexMatch(regex) {
@@ -319,7 +377,7 @@ function regexMatch(regex) {
 
 /*
   it('should', () => {
-    cont regex = /abc/;
+    const regex = /abc/;
     assert.equal(/aaa/.test('abc'), true);
   });
  */
