@@ -378,7 +378,7 @@ function regexMatch(regex) {
 /*
   it('should', () => {
     const regex = /abc/;
-    assert.equal(/aaa/.test('abc'), true);
+    assert.equal(regex.test('abc'), true);
   });
  */
 
