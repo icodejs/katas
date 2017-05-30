@@ -50,5 +50,31 @@ describe('stringLikeArrayChar', () => {
     }
     assert.equal('qwerty'.reduce(addPipes), 'q|w|e|r|t|y');
   });
+
+  it('reduceRight', () => {
+    const addPipes = (b, a) => {
+      if (!b) {
+        return a;
+      }
+      return b + '|' + a;
+    }
+    assert.equal('qwerty'.reduceRight(addPipes), 'y|t|r|e|w|q');
+  });
+
+  it('sort', () => {
+    assert.equal('fedcba'.sort(), 'abcdef');
+  });
+
+  it('push', () => {
+    assert.equal('abcde'.push('f'), 'abcdef');
+  });
+
+  it('pop', () => {
+    assert.equal('abcdef'.pop(), 'abcde');
+  });
+
+  it('splice', () => {
+    assert.equal('Hello Peter'.splice(6, 5, 'John'), 'Hello John');
+  });
 });
 
