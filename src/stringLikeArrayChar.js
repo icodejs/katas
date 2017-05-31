@@ -1,3 +1,56 @@
+/*
+  Solution 1:
+  var returns = ['join','forEach','some','every','reduce','reduceRight'];
+  returns.forEach( function ( a ) {
+    String.prototype[ a ] = function () {
+      return Array.prototype[ a ].apply( this.split(''), arguments );
+    };
+  });
+
+  var joins = ['map','filter','sort','reverse'];
+  joins.forEach( function ( a ) {
+    String.prototype[ a ] = function () {
+      return Array.prototype[ a ].apply( this.split(''), arguments ).join('');
+    };
+  });
+
+  var modifies = ['push','pop','shift','unshift','splice'];
+  modifies.forEach( function ( a ) {
+    String.prototype[ a ] = function () {
+      var arr = this.split('');
+      Array.prototype[ a ].apply( arr, arguments );
+      return arr.join('');
+    };
+  });
+
+
+  Solution 2:
+  function addToPrototype(property) {
+    String.prototype[property] = function link() {
+      var arr = this.split('');
+      var result = Array.prototype[property].apply(arr, arguments);
+
+      if (arr.join('') !== this.toString()) {
+        result = arr.join('');
+      } else if (result instanceof Array) {
+        result = result.join('');
+      }
+
+      return result;
+    };
+  }
+
+  (function stringSuperPower() {
+    var tester = Object('');
+
+    Object.getOwnPropertyNames(Array.prototype).forEach(function(property) {
+      if (!(property in tester)) {
+        addToPrototype(property);
+      }
+    });
+  }());
+*/
+
 String.prototype.map = function (fn, thisArg) {
   return this.split('').map(fn, thisArg).join('');
 }
