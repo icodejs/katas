@@ -1,7 +1,7 @@
 import assert from 'assert';
 import fn from '../src/stringLikeArrayChar.js';
 
-describe('stringLikeArrayChar', () => {
+describe('stringLikeArrayChar adds to the String.prototype the following Array.prototype methods', () => {
   it('map', () => {
     const uppercase = (c) => c.toUpperCase();
     assert.equal('qwerty'.map(uppercase), 'QWERTY');
@@ -71,6 +71,14 @@ describe('stringLikeArrayChar', () => {
 
   it('pop', () => {
     assert.equal('abcdef'.pop(), 'abcde');
+  });
+
+  it('shift', () => {
+    assert.equal('abcdef'.shift(), 'bcdef');
+  });
+
+  it('unshift', () => {
+    assert.equal('bcdef'.unshift('a'), 'abcdef');
   });
 
   it('splice', () => {

@@ -43,14 +43,14 @@ String.prototype.push = function (element) {
 }
 
 String.prototype.pop = function () {
-  const len = this.split('').length;
-  const removeLast = (c, i) => i !== len - 1;
-  return this.split('').filter(removeLast).join('');
+  const arr = this.split('');
+  const removeLast = (c, i) => i !== arr.length - 1;
+  return arr.filter(removeLast).join('');
 }
 
 String.prototype.shift = function () {
-  const removeLast = (c, i) => i !== 0;
-  return this.split('').filter(removeLast).join('');
+  const removeFirst = (c, i) => i !== 0;
+  return this.split('').filter(removeFirst).join('');
 }
 
 String.prototype.unshift = function (element) {
@@ -59,5 +59,5 @@ String.prototype.unshift = function (element) {
 
 String.prototype.splice = function () {
   const [start, deleteCount, value] = [...arguments];
-  return this.substring(0, start, deleteCount).join('') + value;
+  return this.substring(0, start, deleteCount) + value;
 }
